@@ -1,0 +1,533 @@
+/* ====================================================================
+   File: style.css
+   Project: WeatherNow – Real Time Weather Application
+   Purpose: Global design tokens, layout scaffolding, component styling,
+            animation key-frames and dark-mode palette.
+==================================================================== */
+
+/* -------------------------------------
+   ROOT VARIABLES
+   Design-tokens that theme the entire UI
+-------------------------------------- */
+:root {
+    /* --- Containers --- */
+    --clr-bg           : linear-gradient(to bottom right, #e0ecff, #f8faff);
+    --clr-surface      : #ffffff;  /* primary card surface */
+    --clr-surface-elev : #f0f2f5;  /* slightly raised surface */
+
+    /* --- Brand & Utility Colors --- */
+    --clr-primary      : #007cf0;
+    --clr-primary-d    : #005fcc; /* darker shade of primary (hover) */
+    --clr-accent       : #f48c06; /* feature highlight (favourite btn) */
+    --clr-danger       : #d53030; /* destructive / error */
+
+    /* --- Typography Colors --- */
+    --txt-1            : #222; /* default foreground */
+    --txt-2            : #555; /* secondary */
+    --txt-3            : #888; /* tertiary / muted */
+
+    /* --- Misc --- */
+    --radius           : 10px;
+    --shadow           : 0 4px 14px rgba(0,0,0,.08);
+    --speed            : .25s;                     /* default transition speed */
+    --font-main        : 'Inter', system-ui, sans-serif;
+}
+
+/* -------------------------------------
+   BASE STYLES
+-------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font: 400 16px/1.55 var(--font-main);
+
+    /* animated gradient background */
+    background: var(--clr-bg);
+    background-size: 300% 300%;
+    animation: animatedBg 15s ease infinite;
+
+    color: var(--txt-1);
+}
+
+/* Generic utility */
+.hidden {
+    display: none !important;
+}
+
+/* -------------------------------------
+   DASHBOARD LAYOUT WRAPPER
+-------------------------------------- */
+.dashboard {
+    max-width: 100%;
+    padding: 2rem 1rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 100vh;
+}
+
+/* -------------------------------------
+   HEADER
+-------------------------------------- */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 2.2rem;
+
+    /* shimmering gradient text */
+    background: linear-gradient(to right, #1d4ed8, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+/* ---- Theme-toggle button ---- */
+#modeToggle {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--txt-2);
+    transition: color var(--speed);
+}
+
+#modeToggle:hover {
+    color: var(--clr-primary);
+}
+
+#modeToggle i {
+    transition: transform 0.3s ease;
+}
+
+#modeToggle:hover i {
+    transform: rotate(180deg);
+}
+
+/* -------------------------------------
+   SEARCH SECTION
+-------------------------------------- */
+.search-section {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+    background: var(--clr-surface);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+
+    padding: 0.4rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* input field */
+#city {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    font-size: 1rem;
+
+    background-color: #f0f2f5;
+    transition: box-shadow var(--speed), background-color var(--speed);
+    outline: none;
+    font-family: var(--font-main);
+}
+
+#city:focus {
+    background-color: #fff;
+    box-shadow: inset 0 0 0 2px var(--clr-primary);
+}
+
+/* search button */
+#searchBtn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0 var(--radius) var(--radius) 0;
+
+    background: linear-gradient(to right, #3b82f6, #2563eb);
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-main);
+
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    transition: all 0.3s ease;
+}
+
+#searchBtn:hover {
+    background: linear-gradient(to right, #60a5fa, #1d4ed8);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+    transform: translateY(-2px);
+}
+
+#searchBtn:active {
+    animation: bounceBtn 0.2s ease-out;
+}
+
+/* inline error */
+.error {
+    color: var(--clr-danger);
+    font-weight: 500;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* -------------------------------------
+   WEATHER RESULT
+-------------------------------------- */
+#resultCard {
+    margin-top: 2rem;
+}
+
+#resultCard.animated {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.weather-box,
+.weather-result {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-box h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+}
+
+.weather-desc {
+    color: var(--txt-2);
+    text-transform: capitalize;
+    margin-bottom: 1.2rem;
+}
+
+.weather-icon-img {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 1rem;
+}
+
+/* information grid (temp, humidity, etc.) */
+.info-table {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 24px 12px; /* horizontal | vertical spacing */
+}
+
+.info-table td {
+    padding: 0.6rem 0;
+    vertical-align: middle;
+    font-size: 1rem;
+}
+
+.info-label  { text-align: left;  font-weight: 500; color: var(--txt-2); }
+.info-value  { text-align: right; font-weight: 600; color: var(--txt-1); }
+
+/* favourite toggle */
+.favorite-btn {
+    margin-top: 1.35rem;
+    width: 100%;
+    padding: 0.8rem 0;
+    border: none;
+    border-radius: var(--radius);
+
+    background: var(--clr-accent);
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background var(--speed), transform var(--speed);
+}
+
+.favorite-btn:hover {
+    /* CSS color-mix requires modern browsers */
+    background: color-mix(in srgb, var(--clr-accent) 85%, #000);
+    transform: translateY(-2px);
+}
+
+.favorite-btn.favorited {
+    background: #2e7d32; /* green when already favourited */
+}
+
+/* -------------------------------------
+   LISTS (Favourites & History)
+-------------------------------------- */
+.lists-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* shared card styles */
+.card-box,
+.list-card {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    padding: 1.25rem;
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--clr-surface-elev);
+    margin-bottom: 0.5rem;
+}
+
+.card-title-row h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+
+    background: linear-gradient(to right, #4f46e5, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* list items */
+.list-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list-card li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid var(--clr-surface-elev);
+    font-size: 0.97rem;
+}
+
+.list-card li:last-child {
+    border-bottom: none;
+}
+
+/* delete (X) button inside list item */
+.list-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--txt-3);
+    cursor: pointer;
+    transition: color var(--speed), transform var(--speed);
+}
+
+.list-btn:hover {
+    color: var(--clr-danger);
+    transform: rotate(90deg);
+}
+
+/* -------------------------------------
+   DARK MODE OVERRIDES
+-------------------------------------- */
+.dark {
+    /* Palette overrides (same variable names) */
+    --clr-bg            : linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+    --clr-surface       : #1e252f;
+    --clr-surface-elev  : #2d3542;
+
+    --clr-primary       : #4ea8ff;
+    --clr-primary-d     : #0070f3;
+    --clr-accent        : #ffb347;
+    --clr-danger        : #ff6b6b;
+
+    --txt-1             : #f1f3f5;
+    --txt-2             : #cbd2e0;
+    --txt-3             : #99a2b0;
+
+    --shadow            : 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ensure page background turns fully dark */
+.dark body,
+.dark html {
+    background-color: #0f2027 !important;
+    background-image: linear-gradient(to bottom, #0f2027, #203a43, #2c5364) !important;
+}
+
+/* cards in dark mode */
+.dark .card-box,
+.dark .list-card {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+/* search input */
+.dark #city {
+    background-color: #2c3440;
+    color: var(--txt-1);
+}
+.dark #city:focus {
+    background-color: #354150;
+}
+
+/* info labels */
+.dark .info-label { color: var(--txt-3); }
+.dark .info-value { color: var(--txt-1); }
+
+/* mode-toggle hover (kept visible) */
+.dark #modeToggle:hover {
+    color: var(--clr-primary);
+}
+
+/* -------------------------------------
+   RESPONSIVE BREAKPOINTS
+-------------------------------------- */
+@media (min-width: 1024px) {        /* desktop wide */
+    .lists-container {
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+    }
+    .list-card {
+        flex: 1;
+        max-width: 480px;
+    }
+}
+
+@media (max-width: 768px) {         /* tablets */
+    .lists-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {         /* small devices / phones */
+    .search-section {
+        flex-direction: column;
+    }
+
+    #searchBtn {
+        width: 100%;
+        border-radius: var(--radius);
+        margin-top: 0.5rem;
+    }
+
+    #city {
+        border-radius: var(--radius);
+    }
+}
+
+/* -------------------------------------
+   ANIMATIONS
+-------------------------------------- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceBtn {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes animatedBg {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes rotateIcon {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(180deg); }
+}
+
+/* quick util class (added via JS) */
+.icon-rotate {
+    animation: rotateIcon 0.4s ease-in-out;
+}
+
+/* -------------------------------------
+   SCROLLBAR STYLES (WebKit-based)
+-------------------------------------- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* -------------------------------------
+   FIXES & GUARDED OVERRIDES
+-------------------------------------- */
+body {
+    background: var(--clr-bg);
+}
+
+/* prevent background leak outside viewport */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+
+    background: var(--clr-bg);
+    background-size: 300% 300%;
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+/* full-bleed dark background for .dark */
+body.dark {
+    background: linear-gradient(to bottom, #0e141b, #1c1f26);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* let dashboard stretch fully & keep backdrop transparent */
+.dashboard {
+    min-height: 100vh;
+    width: 100%;
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+}
